@@ -29,31 +29,34 @@
 
 var body = document.body;
 var h1El = document.createElement('h1');
-var buttonEl = document.querySelector("#btn");
+var buttonEl = document.querySelector("#nxt-quest");
+var questionsEl = document.querySelector("#questions");
 
-//create button element
-buttonEl.addEventlistener("click", function(){
-    }
- )
 
- document.body.appendChild(button)
+
+// // create button element
+var startQuiz = function() {
+  var listItemEl = document.createElement("li");
+  listItemEl.className = "";
+  listItemEl.textContent = ("Microsoft, Netscape, Apple, Adobe, Disney");
+  questionsEl.appendChild(listItemEl);    
+};
+
+buttonEl.addEventListener("click", startQuiz);
+
 // List items for each question
-var li1 = document.createElement ("li");
-var li2 = document.createElement ("li");
-var li3 = document.createElement ("li");
-var li4 = document.createElement ("li");
-var li5 = document.createElement ("li");
+var quest1ItemEl = document.createElement ("li");
+var quest2ItemEl = document.createElement ("li");
+var quest3ItemEl = document.createElement ("li");
+var quest4ItemEl = document.createElement ("li");
+var quest5ItemEl = document.createElement ("li");
 
-li1.textContent = "Microsoft";
-li2.textContent = "Netscape";
-li3.textContent = "Apple";
-li4.textContent = "Adobe";
-li5.textContent = "Disney";
+quest1ItemEl.textContent = ("Microsoft", "Netscape", "Apple", "Adobe", "Disney");
 
-listEl.appendChild(li1)
-listEl.appendChild(li2)
-listEl.appendChild(li3)
-listEl.appendChild(li4)
-listEl.appendChild(li5)
 
+// listEl.appendChild(li1)
+// listEl.appendChild(li2)
+// listEl.appendChild(li3)
+// listEl.appendChild(li4)
+// listEl.appendChild(li5)
 
