@@ -29,7 +29,14 @@
 
 var body = document.body;
 var h1El = document.createElement('h1');
+var buttonEl = document.querySelector("#btn");
 
+//create button element
+buttonEl.addEventlistener("click", function(){
+    }
+ )
+
+ document.body.appendChild(button)
 // List items for each question
 var li1 = document.createElement ("li");
 var li2 = document.createElement ("li");
@@ -48,3 +55,5 @@ listEl.appendChild(li2)
 listEl.appendChild(li3)
 listEl.appendChild(li4)
 listEl.appendChild(li5)
+
+
