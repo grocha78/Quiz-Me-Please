@@ -8,54 +8,58 @@
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
-    <h1>A Coded-Brain Workout!</h1>
-    <p>Try this short quiz on code-related questions with a built-in time limit.<br>
-        Keep in mind that incorrect answers will penalize your score/time<br> by ten seconds!
-    </p>
-    <form id="quest-form">
-        <div class="card-contents" >
-            <button type="submit" id="nxt-quest" class="button">Start Quiz and Timer!</button>
-        </div> 
-    </form>  
-   <main>
-    <section>
-        <div class="container1">
-        <ul id="questions">
-            <div class="box" data-state="hidden">
-            <li></li>
-            </div>
-        </ul>
+    <!-- opening greeting -->
+    <div class="start_btn"><button>A Coded-Brain Workout!</button></div>
+    <!-- rules of quiz-->
+    <div class="info_box">
+        <div class="info-title"><span>
+            Click Start to begin the timed quiz. <br>
+            Click Exit if you'd rather not 😉</span>
         </div>
-        <div class="container2">
-            <ul id="questions">
-            <div class="box" data-state="hidden">
-                <li></li>
-            </div>
-            </ul>
+        <div class="buttons">
+            <button class="quit">Exit Quiz</button>
+            <button class="restart">Start Quiz!</button>
         </div>
-        <div class="container3">
-            <ul id="questions">
-            <div class="box" data-state="hidden">
-                <li></li>
+    </div>
+
+    <div class="quiz_box">
+        <header>
+            <div class="timer">
+                <div class="time_left_txt">Time Left</div>
+                <div class="timer_sec">15</div>
             </div>
-            </ul>
-        </div>
-        <div class="container4">
-            <ul id="questions">
-            <div class="box" data-state="hidden">
-                <li></li>
+            <div class="time_line"></div>
+        </header>
+        <section>
+            <div class="que_text">
+                <!-- questions from JS -->
             </div>
-            </ul>
-        </div>
-        <div class="container5">
-            <ul id="questions">
-            <div class="box" data-state="hidden">
-            <li></li>
+            <div class="option_list">
+                <!-- options from JS -->
             </div>
-            </ul>
+        </section>
+        <!-- footer of Quiz Box -->
+        <footer>
+            <div class="total_que">
+                <!-- Question Count Number from JS -->
+            </div>
+            <button class="next_btn">Next Que</button>
+        </footer>
+    </div>
+    <!-- Result Box -->
+    <div class="result_box">
+        <div class="icon">
+            <i class="fas fa-crown"></i>
         </div>
-    </section>
-   </main>
+        <div class="complete_text">You've completed the Quiz!</div>
+        <div class="score_text">
+            <!-- Score Result from JS -->
+        </div>
+        <div class="buttons">
+            <button class="restart">Replay Quiz</button>
+            <button class="quit">Quit Quiz</button>
+        </div>
+    </div>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>

@@ -1,251 +1,258 @@
-// GIVEN I am taking a code quiz
-// WHEN I click the start button
-// THEN a timer starts and I am presented with a question
-// WHEN I answer a question
-// THEN I am presented with another question
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-// WHEN the game is over
-// THEN I can save my initials and score
+//selecting all required elements
+var start_btn = document.querySelector(".start_btn button");
+var info_box = document.querySelector(".info_box");
+var exit_btn = info_box.querySelector(".buttons .quit");
+var startQuiz_btn = info_box.querySelector(".buttons .restart");
+var quiz_box = document.querySelector(".quiz_box");
+var result_box = document.querySelector(".result_box");
+var option_list = document.querySelector(".option_list");
+var time_line = document.querySelector("header .time_line");
+var timeText = document.querySelector(".timer .time_left_txt");
+var timeCount = document.querySelector(".timer .timer_sec");
 
+// creating an array with the number, questions, options, and answers
+let questions = [
+    {
+    numb: 1,
+    question: "What company developed Javascript?",
+    answer: "Netscape",
+    options: [
+      "Microsoft",
+      "Pixar",
+      "Netscape",
+      "Apple"
+    ]
+  },
+    {
+    numb: 2,
+    question: "What does NULL mean in Javascript?",
+    answer: "No Value or No Object",
+    options: [
+      "Numbers Equal Zero",
+      "No Value or No Object",
+      "Please Restart Computer",
+      "Tell Me Whyyyyy"
+    ]
+  },
+    {
+    numb: 3,
+    question: "Which of these is NOT an undefined valuee in Javascript?",
+    answer: "Alert Confirm Prompt",
+    options: [
+      "Alert Confirm Prompt",
+      "Variable Used in the Code Does Not Exist",
+      "Variable is Not Assigned to Any Value",
+      "Property Does Not Exist"
+    ]
+  },
+    {
+    numb: 4,
+    question: "What does CSS stand for?",
+    answer: "Cascading Style Sheet",
+    options: [
+        "Common Style Sheet",
+        "Colorful Style Sheet",
+        "Computer Style Sheet",
+        "Cascading Style Sheet"
+    ]
+  },
+    {
+    numb: 5,
+    question: "What is a Javascript array?",
+    answer: "An Ordered List of Values",
+    options: [
+      "An Ordered List of Commands",
+      "An Ordered List of Numbers",
+      "An Ordered List of Values",
+      "An Ordered List of Variables"
+    ]
+  },
+];
 
-//  let questions = [
-//     {
-//         numb: 1,
-//         question: "Which company developed Javascript?",
-//         answer: "Netscape",
-//         options: ["Microsoft", "Netscape", "Apple", "Adobe", "Disney"]
-//     },
-//     {
-//         numb: 2,
-//         question: "What does CSS stand for?",
-//         answer: "Cascading Style Sheet",
-//         options: ["Computer Style Sheet", "Cheese Sausage Sandwich", "Cascading Style Sheet", "Colors Style Sheet", "Common Colors Sheet"]
-//     },
-//     {
-//         numb: 3,
-//         question: "Which of these is a looping structure in Javascript?",
-//         answer: "For",
-//         options: ["this", "else", "if", "for", "why"]
-//     },
-//     {
-//         numb: 4,
-//         question: "Does Javascript have concept level scope?",
-//         answer: "Yes",
-//         options: ["Yes", "No"]
-//     },
-//     {
-//         numb: 5,
-//         question: "What is a pop up box type available in javascript?",
-//         answer: "alert",
-//         options: ["alert", "hey", "prompter", "psst", "popup"]
-//     },
+// if start button clicked
+start_btn.onclick = ()=>{
+    info_box.classList.add("activeInfo"); //show info box
+}
+// if exitQuiz button clicked
+exit_btn.onclick = ()=>{
+  info_box.classList.remove("activeInfo"); //hide info box
+}
 
-// ]
+// if startQuiz button clicked
+startQuiz_btn.onclick = ()=>{
+    info_box.classList.remove("activeInfo"); //hide info box
+    quiz_box.classList.add("activeQuiz"); //show quiz box
+    showQuetions(0); //calling showQestions function
+    queCounter(1); //passing 1 parameter to queCounter
+    startTimer(15); //calling startTimer function
+    startTimerLine(0); //calling startTimerLine function
+}
+let timeValue =  15;
+let que_count = 0;
+let que_numb = 1;
+let userScore = 0;
+let counter;
+let counterLine;
+let widthValue = 0;
+var restart_quiz = result_box.querySelector(".buttons .restart");
+var quit_quiz = result_box.querySelector(".buttons .quit");
 
-var body = document.body;
-var h1El = document.createElement('h1');
-var buttonEl = document.querySelector("#nxt-quest");
-var questionsEl = document.querySelector("#questions");
-//var questionSubmitClick = document.querySelector("#questionSubmit");
+// if restartQuiz button clicked
+restart_quiz.onclick = ()=>{
+    quiz_box.classList.add("activeQuiz"); //show quiz box
+    result_box.classList.remove("activeResult"); //hide result box
+    timeValue = 15; 
+    que_count = 0;
+    que_numb = 1;
+    userScore = 0;
+    widthValue = 0;
+    showQuetions(que_count); //calling showQestions function
+    queCounter(que_numb); //passing que_numb value to queCounter
+    clearInterval(counter); //clear counter
+    clearInterval(counterLine); //clear counterLine
+    startTimer(timeValue); //calling startTimer function
+    startTimerLine(widthValue); //calling startTimerLine function
+    timeText.textContent = "Time Left"; //change the text of timeText to Time Left
+    next_btn.classList.remove("show"); //hide the next button
+}
 
-//questionSubmitClick.addEventListener("click", insertQuestion);
+// if quitQuiz button clicked
+quit_quiz.onclick = ()=>{
+  window.location.reload(); //reload the current window
+}
 
-// //function insertQuestion(event) {
-//   event.preventDefault();
-//   var questionListEl = document.createElement("li");
-//   questionListEl.textContent = questionInput.value;
-//   questionListEl.className = "list-group-item";
-//   listEl.appendChild(questionListEl);
-// }
-
-// create button element
-// var startQuiz = function() {
-//   event.preventDefault();
-//   var listItemEl = document.createElement("li");
-//   listItemEl.className = "container";
-//   listItemEl.textContent = ("");
-//   questionsEl.appendChild(listItemEl);    
-// };
-
-// buttonEl.addEventListener("click", startQuiz);
-
-var container1 = document.querySelector('.container1');
-
-container1.addEventListener('click', function (event) {
-  var element = event.target;
-
-  // if (element.matches(".box")) {
-  var state = element.getAttribute('data-state');
-
-  // Use an if statement to conditionally render the number on the card
-  if (state === 'hidden') {
-    // Using the dataset property, we change the state to visible because the user can now see the number
-    element.dataset.state = 'visible';
-  } else {
-    // 'Hide' the number by setting .textContent to an empty string
-    element.textContent = ("Which company developed Javascript?");
-    // Use .setAttribute() method
-    element.setAttribute('data-state', 'hidden');
-  }
-  //}
-});
-
-var container2 = document.querySelector('.container2');
-
-container2.addEventListener('click', function (event) {
-  var element = event.target;
-
-  // if (element.matches(".box")) {
-  var state = element.getAttribute('data-state');
-
-  // Use an if statement to conditionally render the number on the card
-  if (state === 'hidden') {
-    // Using the dataset property, we change the state to visible because the user can now see the number
-    element.dataset.state = 'visible';
-  } else {
-    // 'Hide' the number by setting .textContent to an empty string
-    element.textContent = ("What does CSS stand for?");
-    // Use .setAttribute() method
-    element.setAttribute('data-state', 'hidden');
-  }
-  //}
-});
-
-var container3 = document.querySelector('.container3');
-
-container3.addEventListener('click', function (event) {
-  var element = event.target;
-
-  // if (element.matches(".box")) {
-  var state = element.getAttribute('data-state');
-
-  // Use an if statement to conditionally render the number on the card
-  if (state === 'hidden') {
-    // Using the dataset property, we change the state to visible because the user can now see the number
-    element.dataset.state = 'visible';
-  } else {
-    // 'Hide' the number by setting .textContent to an empty string
-    element.textContent = ("Which of these is a looping structure in Javascript?");
-    // Use .setAttribute() method
-    element.setAttribute('data-state', 'hidden');
-  }
-  //}
-});
-
-var container4 = document.querySelector('.container4');
-
-container4.addEventListener('click', function (event) {
-  var element = event.target;
-
-  // if (element.matches(".box")) {
-  var state = element.getAttribute('data-state');
-
-  // Use an if statement to conditionally render the number on the card
-  if (state === 'hidden') {
-    // Using the dataset property, we change the state to visible because the user can now see the number
-    element.dataset.state = 'visible';
-  } else {
-    // 'Hide' the number by setting .textContent to an empty string
-    element.textContent = ("Does Javascript have concept level scope?");
-    // Use .setAttribute() method
-    element.setAttribute('data-state', 'hidden');
-  }
-  //}
-});
-
-var container5 = document.querySelector('.container5');
-
-container5.addEventListener('click', function (event) {
-  var element = event.target;
-
-  // if (element.matches(".box")) {
-  var state = element.getAttribute('data-state');
-
-  // Use an if statement to conditionally render the number on the card
-  if (state === 'hidden') {
-    // Using the dataset property, we change the state to visible because the user can now see the number
-    element.dataset.state = 'visible';
-  } else {
-    // 'Hide' the number by setting .textContent to an empty string
-    element.textContent = ("What is a pop up box type available in javascript?");
-    // Use .setAttribute() method
-    element.setAttribute('data-state', 'hidden');
-  }
-  //}
-});
-
-// // package up data as an object
-// var questDataobj = {
-
-// };
-
-// // sent it as an argument to createQuestEl
-// createQuestEl(questDataobj);
-// };
-
-// var createQuestEl = function(questDataobj) {
-//     // create list item
-//   var listItemEl = document.createElement("li");
-//   listItemEl.className = "";
-
-// create div to hold question info and add to list item
-    //var questInfoEl = document.createElement("div");
-    //questInfoEl.className = "";
-
-// add html content to div
-  //questInfoEl.innerHTML = "<h3>Which company developed javascript?" + questDataobj.name + "</h3><span>" + questDataobj.type + "</span>";
-  //listItemEl.appendChild(listItemEl);  
-
-// add entire list item to list
-//questionsEl.appendChild(listItemEl);
-// }
-
-// // function startTimer (time) {
-//     counter = setInterval (timer, 1000);
-//     function timer() {
-//         timeCount.textContent = time;
-//         time--;
-//     if (time < 9) {
-//         let addZero = timeCount.textContent;
-//         timeCount.textContent = "0" + addZero;
-//     }
-//     if (time < 0) {
-//         clearInterval(counter);
-//         timeText.textContent = "Time Off";
-//         var allOptions = option_list.children.length; //getting all option items
-//             let correcAns = questions[que_count].answer; //getting correct answer from array
-//             for(i=0; i < allOptions; i++){
-//                 if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer
-//                     option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
-//                     option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
-//                     console.log("Time Off: Auto selected correct answer.");
-//                 }
-//             }
-//             for(i=0; i < allOptions; i++){
-//                 option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
-//             }
-//             next_btn.classList.add("show"); //show the next button if user selected any option
-//         }
-//     }
-// }
-   
-
-// List items for each question
-// var quest1ItemEl = document.createElement ("li");
-// var quest2ItemEl = document.createElement ("li");
-// var quest3ItemEl = document.createElement ("li");
-// var quest4ItemEl = document.createElement ("li");
-// var quest5ItemEl = document.createElement ("li");
-
-// quest1ItemEl.textContent = ("Microsoft", "Netscape", "Apple", "Adobe", "Disney");
-
-
-// listEl.appendChild(li1)
-// listEl.appendChild(li2)
-// listEl.appendChild(li3)
-// listEl.appendChild(li4)
-// listEl.appendChild(li5)
-
+var next_btn = document.querySelector("footer .next_btn");
+var bottom_ques_counter = document.querySelector("footer .total_que");
+// if Next Que button clicked
+next_btn.onclick = ()=>{
+    if(que_count < questions.length - 1){ //if question count is less than total question length
+        que_count++; //increment the que_count value
+        que_numb++; //increment the que_numb value
+        showQuetions(que_count); //calling showQestions function
+        queCounter(que_numb); //passing que_numb value to queCounter
+        clearInterval(counter); //clear counter
+        clearInterval(counterLine); //clear counterLine
+        startTimer(timeValue); //calling startTimer function
+        startTimerLine(widthValue); //calling startTimerLine function
+        timeText.textContent = "Time Left"; //change the timeText to Time Left
+        next_btn.classList.remove("show"); //hide the next button
+    }else{
+        clearInterval(counter); //clear counter
+        clearInterval(counterLine); //clear counterLine
+        showResult(); //calling showResult function
+    }
+}
+// getting questions and options from array
+function showQuetions(index){
+    var que_text = document.querySelector(".que_text");
+    //creating a new span and div tag for question and option and passing the value using array index
+    let que_tag = '<span>'+ questions[index].numb + ". " + questions[index].question +'</span>';
+    let option_tag = '<div class="option"><span>'+ questions[index].options[0] +'</span></div>'
+    + '<div class="option"><span>'+ questions[index].options[1] +'</span></div>'
+    + '<div class="option"><span>'+ questions[index].options[2] +'</span></div>'
+    + '<div class="option"><span>'+ questions[index].options[3] +'</span></div>';
+    que_text.innerHTML = que_tag; //adding new span tag inside que_tag
+    option_list.innerHTML = option_tag; //adding new div tag inside option_tag
+    
+    var option = option_list.querySelectorAll(".option");
+    // set onclick attribute to all available options
+    for(i=0; i < option.length; i++){
+        option[i].setAttribute("onclick", "optionSelected(this)");
+    }
+}
+// creating the new div tags which for icons
+let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
+let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
+//if user clicked on option
+function optionSelected(answer){
+    clearInterval(counter); //clear counter
+    clearInterval(counterLine); //clear counterLine
+    let userAns = answer.textContent; //getting user selected option
+    let correcAns = questions[que_count].answer; //getting correct answer from array
+    var allOptions = option_list.children.length; //getting all option items
+    
+    if(userAns == correcAns){ //if user selected option is equal to array's correct answer
+        userScore += 1; //upgrading score value with 1
+        answer.classList.add("correct"); //adding green color to correct selected option
+        answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
+        console.log("Correct Answer");
+        console.log("Your correct answers = " + userScore);
+    }else{
+        answer.classList.add("incorrect"); //adding red color to correct selected option
+        answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
+        console.log("Wrong Answer");
+        for(i=0; i < allOptions; i++){
+            if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer 
+                option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
+                option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
+                console.log("Auto selected correct answer.");
+            }
+        }
+    }
+    for(i=0; i < allOptions; i++){
+        option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
+    }
+    next_btn.classList.add("show"); //show the next button if user selected any option
+}
+function showResult(){
+    info_box.classList.remove("activeInfo"); //hide info box
+    quiz_box.classList.remove("activeQuiz"); //hide quiz box
+    result_box.classList.add("activeResult"); //show result box
+    var scoreText = result_box.querySelector(".score_text");
+    if (userScore > 3){ // if user scored more than 3
+        //creating a new span tag and passing the user score number and total question number
+        let scoreTag = '<span>Congrats! You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+        scoreText.innerHTML = scoreTag;  //adding new span tag inside score_Text
+    }
+    else if(userScore > 1){ // if user scored more than 1
+        let scoreTag = '<span>Nice! You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+        scoreText.innerHTML = scoreTag;
+    }
+    else{ // if user scored less than 1
+        let scoreTag = '<span>Oh sorry! You got only <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+        scoreText.innerHTML = scoreTag;
+    }
+}
+function startTimer(time){
+    counter = setInterval(timer, 1000);
+    function timer(){
+        timeCount.textContent = time; //changing the value of timeCount with time value
+        time--; //decrement the time value
+        if(time < 9){ //if timer is less than 9
+            let addZero = timeCount.textContent; 
+            timeCount.textContent = "0" + addZero; //add a 0 before time value
+        }
+        if(time < 0){ //if timer is less than 0
+            clearInterval(counter); //clear counter
+            timeText.textContent = "Time Off"; //change the time text to time off
+            var allOptions = option_list.children.length; //getting all option items
+            let correcAns = questions[que_count].answer; //getting correct answer from array
+            for(i=0; i < allOptions; i++){
+                if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer
+                    option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
+                    option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
+                    console.log("Time Off: Auto selected correct answer.");
+                }
+            }
+            for(i=0; i < allOptions; i++){
+                option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
+            }
+            next_btn.classList.add("show"); //show the next button if user selected any option
+        }
+    }
+}
+function startTimerLine(time){
+    counterLine = setInterval(timer, 29);
+    function timer(){
+        time += 1; //upgrading time value with 1
+        time_line.style.width = time + "px"; //increasing width of time_line with px by time value
+        if(time > 549){ //if time value is greater than 549
+            clearInterval(counterLine); //clear counterLine
+        }
+    }
+}
+function queCounter(index){
+    //creating a new span tag and passing the question number and total question
+    let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ questions.length +'</p> Questions</span>';
+    bottom_ques_counter.innerHTML = totalQueCounTag;  //adding new span tag inside bottom_ques_counter
+}
